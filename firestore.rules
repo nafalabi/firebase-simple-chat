@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthorized(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function isImageValid(imgurl) {
+      return imgurl == null || imgurl is string;
+    }
+
+    match /chat/{chatId} {
+      allow read: if true;
+      allow create: if isAuthorized(request.resource.data.uid) && isImageValid(request.resource.data.chatpic);
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
