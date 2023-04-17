@@ -6,7 +6,7 @@ service firebase.storage {
     }
 
     function isImageValid() {
-      return request.resource.contentType.matches('image/*') && request.resource.size <= 8 * 1024 * 1024;
+      return request.resource.contentType.matches('image/.*') && request.resource.size <= 8 * 1024 * 1024;
     }
 
     match /chatimg/{uid}/{filename} {
