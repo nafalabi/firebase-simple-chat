@@ -10,7 +10,7 @@ import { auth } from "../libs/firebase/main";
 import { ChangeEvent, useRef } from "react";
 
 const schema = z.object({
-  message: z.string(),
+  message: z.string().min(1),
 });
 
 const defaultValues = {
