@@ -11,6 +11,7 @@ import {
 import { auth, db } from './main';
 import { chatMessageConverter, ChatMessageDocument } from './schema';
 import { StorageUtil } from './storage';
+import { v4 as uuidv4 } from 'uuid';
 
 namespace FirestoreUtil {
 
@@ -31,7 +32,7 @@ namespace FirestoreUtil {
     return count;
   };
 
-  export const addChatMessage = async (text?: string) => {
+  export const addChatMessage = async (text?: string, imgurl?: string) => {
     const userData = auth.currentUser;
     if (!userData) throw new Error("You have to login to send the chat!");
 
@@ -40,7 +41,7 @@ namespace FirestoreUtil {
       uname: userData.displayName ?? "Anonymous",
       upicture: userData.photoURL,
       message: text ?? null,
-      chatpic: null,
+      chatpic: imgurl ?? null,
       createdAt: serverTimestamp() as unknown as number,
     };
 
@@ -51,13 +52,9 @@ namespace FirestoreUtil {
     const userData = auth.currentUser;
     if (!userData) throw new Error("You have to login to send image!");
 
-    const chatData = await addChatMessage();
-    const chatId = chatData.id;
-    const publicImageUrl = await StorageUtil.uploadChatImage(imageFile, userData.uid, chatId);
-
-    await updateDoc(chatData, {
-      chatpic: publicImageUrl,
-    } as Partial<ChatMessageDocument>);
+    const publicImageUrl = await StorageUtil.uploadChatImage(imageFile, userData.uid, uuidv4());
+    const chatData = await addChatMessage(undefined, publicImageUrl);
+    return chatData;
   };
 };
 
