@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy:hosting": "./node_modules/.bin/firebase deploy --only hosting",
+    "deploy:hosting": "yarn build && ./node_modules/.bin/firebase deploy --only hosting",
     "deploy:rules": "./node_modules/.bin/firebase deploy --only storage,firestore"
   },
   "dependencies": {
