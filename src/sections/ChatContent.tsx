@@ -161,7 +161,7 @@ const ChatContent = () => {
   return (
     <main className="flex gap-4 flex-col flex-1 overflow-hidden">
       <ol ref={scrollRef} className="flex flex-grow flex-col gap-3 overflow-x-hidden rounded-lg bg-slate-700 px-3 py-3 md:px-4 md:py-4 overflow-y-scroll">
-        {limitReached && (
+        {(limitReached && !loading) && (
           <p className='text-slate-300 text-center mt-1 mb-3'>All messages have been loaded</p>
         )}
         {loading && (
