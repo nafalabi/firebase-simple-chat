@@ -18,6 +18,7 @@ export type ChatMessageProps = {
 }
 
 const ChatMessage = ({ chatData, isItMine, setSelectedImage }: ChatMessageProps) => {
+  const isInfoBot = chatData.uid === "info-bot";
   return (
     <motion.li
       id={chatData.id}
@@ -27,18 +28,28 @@ const ChatMessage = ({ chatData, isItMine, setSelectedImage }: ChatMessageProps)
       exit={{ opacity: 0 }}
     >
       <div className="rounded-full w-9 h-9 shrink-0 overflow-hidden">
-        <img
-          src={chatData.upicture ?? "/profilepic.jpeg"}
-          className={clsx(
-            "w-auto h-auto",
-            !chatData.upicture && "bg-gray-100",
-          )}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = '/profilepic.jpeg';
-            currentTarget.classList.add('bg-gray-100');
-          }}
-        />
+        {!isInfoBot && (
+          <img
+            src={chatData.upicture ?? "/profilepic.jpeg"}
+            className={clsx(
+              "w-auto h-auto",
+              !chatData.upicture && "bg-gray-100",
+            )}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/profilepic.jpeg';
+              currentTarget.classList.add('bg-gray-100');
+            }}
+          />
+        )}
+        {isInfoBot && (
+          <div className="bg-gray-50/75 p-1">
+            <img
+              src="bot-icon-24.png"
+              className="w-auto h-auto"
+            />
+          </div>
+        )}
       </div>
       <div className="relative bg-slate-600 px-4 py-2 text-slate-300 rounded-lg max-w-md">
         <div className="flex items-center gap-x-2 flex-wrap">
@@ -46,7 +57,7 @@ const ChatMessage = ({ chatData, isItMine, setSelectedImage }: ChatMessageProps)
           <p className="text-slate-400 text-sm">{chatData.createdAt && format(chatData.createdAt, "d MMM yy, hh:mm a")}</p>
         </div>
         {chatData.message && (
-          <p>{chatData.message}</p>
+          <p className="whitespace-pre-wrap">{chatData.message}</p>
         )}
         {chatData.chatpic && (
           <div className="flex items-center justify-center w-full bg-gray-300 rounded sm:w-96 dark:bg-gray-700 my-2 overflow-hidden cursor-pointer">
