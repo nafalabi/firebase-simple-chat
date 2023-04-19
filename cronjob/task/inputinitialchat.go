@@ -24,9 +24,9 @@ func Inputinitialchat (fbapp *firebase.App) {
 
     data := make(map[string]interface{})
     data["uid"] = "info-bot";
-    data["uname"] = "Information";
+    data["uname"] = "Information [BOT]";
     data["upicture"] = nil;
-    data["message"] = "Hi, welcome!\nThis is a simple demo chat app using firebase, you are free to send chats or images!\nNo data is collected, all the data will be purged daily with a cronjob.\nHappy Testing!";
+    data["message"] = "Hi, welcome!\n\nThis is a simple demo chat app using firebase, you are free to send chats or images!\n\nNo data is collected, all the data will be purged daily with a cronjob.\n\nHappy Testing!";
     data["createdAt"] = time.Now();
 
     docRef, res, err := firestore.Collection("chat").Add(ctx, data);
