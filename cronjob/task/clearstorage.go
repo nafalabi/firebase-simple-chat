@@ -21,25 +21,25 @@ func Clearstorage (fbapp *firebase.App) {
         }
     }()
 
-	client, err := fbapp.Storage(context.Background())
-	if err != nil { panic(fmt.Sprintf("error getting storage client \"%v\"", err.Error())) }
+    client, err := fbapp.Storage(context.Background())
+    if err != nil { panic(fmt.Sprintf("error getting storage client \"%v\"", err.Error())) }
 
-	bucket, err := client.DefaultBucket()
+    bucket, err := client.DefaultBucket()
     if err != nil { panic(fmt.Sprintf("error getting bucket \"%v\"", err.Error())) }
 
-	folder := "chatimg"
-	objs := bucket.Objects(context.Background(), &storage.Query{Prefix: folder})
+    folder := "chatimg"
+    objs := bucket.Objects(context.Background(), &storage.Query{Prefix: folder})
 
-	for  {
+    for  {
         obj, err := objs.Next()
         if (err == iterator.Done) {
             break
         }
         if err != nil { panic(fmt.Sprintf("error iterating storage objects \"%v\"", err.Error())) }
 
-		if err := bucket.Object(obj.Name).Delete(context.Background()); err != nil {
+        if err := bucket.Object(obj.Name).Delete(context.Background()); err != nil {
             panic(fmt.Sprintf("error deleting file %s \"%s\"", obj.Name, err.Error()))
-		}
+        }
         totalDeletedFiles += 1
-	}
+    }
 }
