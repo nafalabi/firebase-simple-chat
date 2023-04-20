@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 'app'
+    restart: on-failure:10
+    ports:
+      - "80:80"
+  cronjob:
+    build:
+      context: ./cronjob
+      dockerfile: Dockerfile
+      args:
+        FIREBASE_STORAGE_BUCKET: ${FIREBASE_STORAGE_BUCKET}
+    container_name: 'cronjob'
+    restart: on-failure:10
+
