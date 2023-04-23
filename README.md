@@ -6,6 +6,8 @@ Tech used:
 - Firebase
 - Go (cronjob)
 
+![preview](preview.gif)
+
 ## Prerequisite
 1. Create a firebase project
 2. Configure firestore, storage, authentication and firebase websdk from firebase console
